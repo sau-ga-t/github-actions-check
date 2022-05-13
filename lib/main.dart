@@ -14,7 +14,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Container(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("Hi"),
+        ),
+      ),
     );
   }
 }
