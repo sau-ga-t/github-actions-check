@@ -10,22 +10,28 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '11'
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
+      
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
       - run: flutter pub get
       - run: flutter build apk
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       - uses: actions/upload-artifact@v1
         with:
           name: app-release.apk
           path: build/app/outputs/apk/release/app-release.apk
-
+      - uses: actions/download-artifact@v3
+        with:
+          name: app-release.apk
+          path: build/app/outputs/apk/release/app-release.apk
+    
+  
